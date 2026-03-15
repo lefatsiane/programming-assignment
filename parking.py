@@ -1,39 +1,67 @@
 """this is a simple parking lot management system that allows users to create an account, log in and exit the program. The program uses a dictionary to store user information and a list to store parking lot information. The program also uses functions to handle different options for the user."""
 
+user_exists = []
+password = {}
+role = {}
 
-def option_1():
+
+def option_1(user_name, password, role):
     """this function creates an account for the user"""
     user_name = input("enter your name: ")
     password = input("enter your five character password: ")
+    role = input("enter your role (admin/user/customer): ")
+
+    """this checks if the password is at least five characters long and if it is, 
+    it adds the user to the user_exists list. If the password is not at least five characters long, 
+    it prints an error message and prompts the user to enter their information again."""
 
     if len(password) >= 5:
+        global user_exists
+        user_exists.append((user_name, password, role))
         print("Account creation successful...")
     else:
         print("password must be at least five characters")
-        option_1()
+        option_1(user_name, password, role)
 
-    print(f"Hi {user_name}, Account has been created for you, you are now able to log in with your credentials")
-    user_exists()
-    option_2()
-    return user_name, password
+    if role != "admin" and role != "user" and role != "customer":
+        print("invalid role, please enter a valid role")
+        option_1(user_name, password, role)
 
-
-def user_exists():
-    """this function checks if the user exists in the database"""
-    if user_name in database:
-        print("you already have an account, you can log in with your credentials")
+    """this checks if the user was added to the user_exists list and if they were, 
+    it prints a success message. If they were not, it prints an error message and prompts the user to enter their information again."""
+    if (user_name, password, role) in user_exists:
+        print(
+            f"Hi {user_name}, Account has been created for you, you are now able to log in with your credentials")
+        welcome_message()
+    else:
+        print("Account creation failed. Please try again.")
         option_2()
-        return True
 
 
-def option_2():
+def option_2(user_name="", password="", role=""):
     """this function logs the user in"""
-    print("you selected option 2")
+
+    """this checks if the user exists in the user_exists list and if they do, it prompts them to enter their name and password. 
+    If the credentials are correct, it prints a welcome message. If the credentials are incorrect, 
+    it prints an error message and prompts the user to enter their information again."""
+
+    if user_exists:
+        user_name = input("enter your name: ")
+        password = input("enter your password: ")
+        role = input("enter your role (admin/user/customer): ")
+
+        if (user_name, password, role) in user_exists:
+            print(f"welcome back {user_name}")
+        else:
+            print("invalid credentials, please try again")
+            option_2()
+    print("You are now logged in successfully!")
 
 
 def option_3():
     """this function exits the program"""
-    print("you selected option 3")
+    print("Thank you for using the parking lot management system. Goodbye!")
+    welcome_message()
 
 
 def welcome_message():
@@ -44,9 +72,9 @@ def welcome_message():
     if option == 3:
         option_3()
     elif option == 1:
-        option_1()
+        option_1(user_name="", password="", role="")
     elif option == 2:
-        option_2()
+        option_2(user_name="", password="", role="")
     else:
         print("select an available option")
         welcome_message()
