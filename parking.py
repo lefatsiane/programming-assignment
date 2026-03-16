@@ -1,4 +1,7 @@
-"""this is a simple parking lot management system that allows users to create an account, log in and exit the program. The program uses a dictionary to store user information and a list to store parking lot information. The program also uses functions to handle different options for the user."""
+"""this is a parking lot management system that allows users to create an account, log in, and exit the program. 
+The program uses a list to store the user information and a dictionary to store the user credentials 
+The user can select an option from the menu to create an account, log in, or exit the program.
+The program also includes error handling to ensure that the user enters valid information when creating an account and logging in."""
 
 user_exists = []
 password = {}
